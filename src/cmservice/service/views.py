@@ -58,7 +58,7 @@ def consent(ticket):
     session['id'] = data['id']
     session['state'] = uuid4().urn
     session['redirect_endpoint'] = data['redirect_endpoint']
-    session['attr'] = data['attr']
+    session['attr'] = set(data['attr'])
     session['locked_attrs'] = data.get('locked_attrs', [])
     session['requester_name'] = data['requester_name']
 
