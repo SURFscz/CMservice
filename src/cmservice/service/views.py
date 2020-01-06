@@ -58,14 +58,14 @@ def consent(ticket):
     session['id'] = data['id']
     session['state'] = uuid4().urn
     session['redirect_endpoint'] = data['redirect_endpoint']
-    session['attr'] = set(data['attr'])
+    session['attr'] = list(set(data['attr']))
     session['locked_attrs'] = data.get('locked_attrs', [])
     session['requester_name'] = data['requester_name']
 
     # TODO should find list of supported languages dynamically
     session['language'] = request.accept_languages.best_match(['sv', 'en'])
     requester_name = find_requester_name(session['requester_name'], session['language'])
-    return render_consent(session['language'], requester_name, session['locked_attrs'], copy.deepcopy(session['attr']),
+    return render_consent(session['language'], requester_name, session['locked_attrs'], copy.deepcopy(data['attr']),
                           session['state'], current_app.config['USER_CONSENT_EXPIRATION_MONTH'],
                           str(current_app.config['AUTO_SELECT_ATTRIBUTES']))
 
